@@ -1,0 +1,20 @@
+# botを止めるため、pidを検索する
+ps -ef | grep python3.10
+
+# botを止める
+kill pid
+
+# pythonファイルがある場所までチェンジディレクトリ
+cd /discord/
+
+# 最新のソースをプルする
+git pull
+
+# 環境変数を修正する場合、以下のコマンドを実行（実行ユーザー: root の場合）
+vi /root/.bash_profile
+
+# 環境変数を修正する場合、以下のコマンドを実行（実行ユーザー: 作成したユーザー の場合）
+vi /usr/local/<作成したユーザー名>/.bash_profile
+
+# コンソール出力なし、ログアウトしても動作し続けるようにする
+nohup python3.10 discord_channels.py &
