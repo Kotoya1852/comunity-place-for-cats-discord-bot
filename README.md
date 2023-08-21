@@ -1,5 +1,8 @@
 # community-place-for-cats-discord-bot
 
+![GitHub issues](https://img.shields.io/github/issues/Kotoya1852/community-place-for-cats-discord-bot?logo=github)
+
+
 > **Warning**<br>
 > This document is only available in Japanese.
 
