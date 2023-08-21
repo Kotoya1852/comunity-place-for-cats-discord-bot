@@ -1,6 +1,6 @@
 # community-place-for-cats-discord-bot
 
-![GitHub issues](https://img.shields.io/github/issues/Kotoya1852/community-place-for-cats-discord-bot?logo=github)
+[![GitHub issues](https://img.shields.io/github/issues/Kotoya1852/community-place-for-cats-discord-bot?logo=github)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/issues?q=is%3Aissue+is%3Aopen+)
 
 
 > **Warning**<br>
