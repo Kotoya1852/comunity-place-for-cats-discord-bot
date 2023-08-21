@@ -5,7 +5,7 @@ ps -ef | grep python3.10
 kill pid
 
 # pythonファイルがある場所までチェンジディレクトリ
-cd /discord/
+cd /discord/src
 
 # 最新のソースをプルする
 git pull
@@ -17,4 +17,4 @@ vi /root/.bash_profile
 vi /usr/local/<作成したユーザー名>/.bash_profile
 
 # コンソール出力なし、ログアウトしても動作し続けるようにする
-nohup python3.10 discord_channels.py &
+nohup python3.10 main.py &

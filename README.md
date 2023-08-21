@@ -31,13 +31,18 @@ export DISCORD_CLIENT_ID={DiscordボットのクライアントID}
 export DISCORD_NOTIFICATION_CANNEL_ID={入退室通知用テキストチャンネルID}
 export DISCORD_MINECRAFT_CHANNEL_ID={マインクラフト用テキストチャンネルID}
 export DISCORD_MINECRAFT_ROLE_ID={マインクラフト参加用ロールID}
+export DEBUG_LOG_OUTPUT_FLAG=true （※デバッグログを出力する場合のみ、しない場合は`false`を指定しても良い）
 ```
 ※`.bash_profile`に追加した際は`reboot`で再起動することをオススメします。
 4. 以下コマンドを実行して、仮想環境を構築する
 ```
 pipenv install
 ```
-5. 以下コマンドを実行して、ボットを起動する
+5. ソースのあるディレクトリに移動する
 ```
-nohup python3.10 discord_channels.py &
+cd src
+```
+6. 以下コマンドを実行して、ボットを起動する
+```
+nohup python3.10 main.py &
 ```
