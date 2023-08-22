@@ -1,7 +1,10 @@
 # community-place-for-cats-discord-bot
 
+[![Python](https://img.shields.io/badge/python-3.10-blue?logo=python)](https://www.python.org/downloads/release/python-3100/)
+[![GitHub](https://img.shields.io/github/license/Kotoya1852/community-place-for-cats-discord-bot)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/Kotoya1852/community-place-for-cats-discord-bot?logo=github)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/issues?q=is%3Aissue+is%3Aopen+)
-
+[![GitHub release (with filter)](https://img.shields.io/github/v/release/Kotoya1852/community-place-for-cats-discord-bot)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/releases/latest)
+[![Static Badge](https://img.shields.io/badge/Visual_Stadio_Code-download-blue?logo=visual-studio-code)](https://azure.microsoft.com/ja-jp/products/visual-studio-code)
 
 > **Warning**<br>
 > This document is only available in Japanese.
