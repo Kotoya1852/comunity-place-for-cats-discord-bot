@@ -2,5 +2,13 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
-  "cSpell.words": ["Dynmap", "Kotoya", "kzrm", "Njgx", "nohup"]
+  "cSpell.words": [
+    "commitlint",
+    "Dynmap",
+    "isort",
+    "Kotoya",
+    "kzrm",
+    "Njgx",
+    "nohup"
+  ]
 }
