@@ -8,7 +8,7 @@
 cd `dirname ${0}`
 
 # 環境変数ファイルのバックアップファイルを一時ファイルとして作成する
-cp set_environement.sh /tmp/set_environement.sh
+cp set_environment.sh /tmp/set_environment.sh
 
 # リポジトリをリセットする
 git checkout .
@@ -18,7 +18,7 @@ git clean
 git pull
 
 # バックアップファイル（一時ファイル）からリストアする
-mv /tmp/set_environement.sh set_environement.sh
+mv /tmp/set_environment.sh set_environment.sh
 
 # 完了
 echo Update completed!
