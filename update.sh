@@ -5,10 +5,10 @@
 ###
 
 # 当シェルスクリプトファイルの場所まで移動
-cd dirname ${0}
+cd `dirname ${0}`
 
 # 環境変数ファイルのバックアップファイルを一時ファイルとして作成する
-copy set_environement.sh /tmp/set_environement.sh
+cp set_environement.sh /tmp/set_environement.sh
 
 # リポジトリをリセットする
 git checkout .
@@ -18,7 +18,7 @@ git clean
 git pull
 
 # バックアップファイル（一時ファイル）からリストアする
-move /tmp/set_environement.sh set_environement.sh
+mv /tmp/set_environement.sh set_environement.sh
 
 # 完了
 echo Update completed!
