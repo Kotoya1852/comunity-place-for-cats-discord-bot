@@ -1,5 +1,6 @@
-import discord
 import random
+
+import discord
 import requests
 
 from const import channel_name, display_name

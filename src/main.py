@@ -1,7 +1,7 @@
 """
     機能名：入退室通知ボット猫 - 猫の集会場
     作成者：Kotoya
-    作成日：不明
+    作成日：2021/08/31
     更新履歴：
         Version 1
         ----------
@@ -25,12 +25,12 @@
                                         → これ以降の更新履歴をGithubで管理する。
 """
 
-import discord
 import datetime
+
+import discord
 
 import const
 from logger import LoggerService as loggerService
-
 from utils import UtilsService as utilsService
 
 # クライアント
@@ -217,9 +217,18 @@ async def on_ready():
     """
     ボットが起動した時に発火するイベントです。
     """
+    # 初期値：通常稼働モード
     bot_str = "稼働中にゃ！"
+    bot_status = discord.Status.online
+
+    # 稼働モードを取得
+    if const.client_run_mode == "maintenance":
+        # メンテナンスモード
+        bot_str = "メンテナンス中にゃ！"
+        bot_status = discord.Status.dnd
+
     await client.change_presence(
-        status=discord.Status.online,
+        status=bot_status,
         activity=discord.Activity(
             name=bot_str,
             type=discord.ActivityType.custom,
