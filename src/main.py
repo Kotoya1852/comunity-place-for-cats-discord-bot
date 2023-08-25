@@ -1,7 +1,7 @@
 """
     機能名：入退室通知ボット猫 - 猫の集会場
     作成者：Kotoya
-    作成日：不明
+    作成日：2021/08/31
     更新履歴：
         Version 1
         ----------
@@ -25,43 +25,16 @@
                                         → これ以降の更新履歴をGithubで管理する。
 """
 
-import discord
-import random
 import datetime
-import requests
-import os
+
+import discord
+
+import const
+from logger import LoggerService as loggerService
+from utils import UtilsService as utilsService
 
 # クライアント
 client = discord.Client(intents=discord.Intents.all())
-client_id = os.getenv("DISCORD_CLIENT_ID")
-
-# 置換定数
-channel_name: str = "$channel_name$"
-display_name: str = "$display_name$"
-
-# メッセージリスト
-entry_msg_list = list(
-    (
-        f"**{channel_name}** に、__{display_name}__  が入室しました！",
-        f"**{channel_name}** に、__{display_name}__  が入ってきた！にゃおん！",
-        f"あ、**{channel_name}** に、__{display_name}__  がきました！",
-    )
-)
-
-leaving_msg_list = list(
-    (
-        f"**{channel_name}** から、__{display_name}__  が退出しました！",
-        f"**{channel_name}** から、__{display_name}__  が出ていった！にゃおん！",
-        f"わーお！**{channel_name}** から、__{display_name}__  がいなくなった！",
-    )
-)
-
-# テキストチャンネルID
-notification_channel_id = os.getenv("DISCORD_NOTIFICATION_CANNEL_ID")
-minecraft_channel_id = os.getenv("DISCORD_MINECRAFT_CHANNEL_ID")
-
-# ロールID
-minecraft_role_id = os.getenv("DISCORD_MINECRAFT_ROLE_ID")
 
 
 @client.event
@@ -78,23 +51,29 @@ async def on_voice_state_update(
     """
     if before.channel != after.channel:
         # 通知先チャンネル指定
-        botRoom = client.get_channel(notification_channel_id)
+        botRoom = client.get_channel(const.notification_channel_id)
 
         # チャンネルIDを自動取得（新しく作成してもソースを修正する必要がない）
         announceChannelIds = []
         for channel in client.get_all_channels():
             announceChannelIds.append(channel.id)
 
-        # デバッグ用-discordにはsendされない-チャンネルIDが入っていることを確認する
-        print(announceChannelIds)
+        # チャンネルIDが入っていることを確認する
+        loggerService.debug(f"対象チャンネルID: {announceChannelIds}")
 
         if before.channel is not None and before.channel.id in announceChannelIds:
             # 退出メッセージ送信
-            await botRoom.send(random_message_select(leaving_msg_list, before, member))
+            await botRoom.send(
+                utilsService.random_message_select(
+                    const.leaving_msg_list, before, member
+                )
+            )
 
         if after.channel is not None and after.channel.id in announceChannelIds:
             # 入室メッセージ送信
-            await botRoom.send(random_message_select(entry_msg_list, after, member))
+            await botRoom.send(
+                utilsService.random_message_select(const.entry_msg_list, after, member)
+            )
 
 
 @client.event
@@ -106,7 +85,7 @@ async def on_message(message: discord.Message):
     Args:
         message: 受信したメッセージ情報
     """
-    print(f"[DEBUG]:{datetime.datetime.now()}:{message.content}")
+    loggerService.debug(f"{datetime.datetime.now()}:{message.content}")
     if message.content.startswith("!"):
         # コマンド接頭辞は`!`なので、`!`のテキストメッセージを取得する
         # コマンドパラメータは半角スペースで区切る
@@ -135,7 +114,7 @@ async def on_message(message: discord.Message):
                     # サーバー情報取得
                     guild = message.guild
                     # ロール情報取得
-                    role = discord.utils.get(guild.roles, id=minecraft_role_id)
+                    role = discord.utils.get(guild.roles, id=const.minecraft_role_id)
                     # 特定のロールが付与されているか
                     if message.author.get_role(role.id) is not None:
                         await message.reply(f"既に参加済です。")
@@ -164,7 +143,7 @@ async def on_message(message: discord.Message):
                     # サーバー情報取得
                     guild = message.guild
                     # ロール情報取得
-                    role = discord.utils.get(guild.roles, id=minecraft_role_id)
+                    role = discord.utils.get(guild.roles, id=const.minecraft_role_id)
                     # 特定のロールが付与されているか
                     if message.author.get_role(role.id) is None:
                         await message.reply(f"イベント`{event}`は参加していません。")
@@ -190,7 +169,7 @@ async def on_message(message: discord.Message):
                     # バリデーションチェック
                     # チャンネルIDチェック
                     message_id = message.channel.id
-                    if message_id != minecraft_channel_id:
+                    if message_id != const.minecraft_channel_id:
                         # テキストチャンネルIDが一致しない
                         await message.reply(
                             f"このテキストチャンネルでは回答できません。\n`{event}`用のテキストチャンネルでコマンドを実行してください。"
@@ -199,12 +178,11 @@ async def on_message(message: discord.Message):
                     # ロールmessage.author.get_チェック
                     guild = message.guild
                     member = guild.get_member(message.author.id)
-                    print(member)
                     if member == None:
                         # メンバーの情報を取得することに失敗した
                         await message.reply(f"あなたの情報を取得することに失敗しました。管理者に連絡してください。")
                         return
-                    role = member.get_role(minecraft_role_id)
+                    role = member.get_role(const.minecraft_role_id)
                     if role is None:
                         # ロールが見つからない
                         await message.reply(
@@ -213,7 +191,7 @@ async def on_message(message: discord.Message):
                         return
 
                     # 情報を返信します。
-                    ip_addr = get_global_ip_address_by_me()
+                    ip_addr = utilsService.get_global_ip_address_by_me()
                     await message.reply(
                         f"【アクセス情報】\nサーバーアドレス：{ip_addr}:25565\nDynmap：{ip_addr}:8123"
                     )
@@ -239,9 +217,18 @@ async def on_ready():
     """
     ボットが起動した時に発火するイベントです。
     """
+    # 初期値：通常稼働モード
     bot_str = "稼働中にゃ！"
+    bot_status = discord.Status.online
+
+    # 稼働モードを取得
+    if const.client_run_mode == "maintenance":
+        # メンテナンスモード
+        bot_str = "メンテナンス中にゃ！"
+        bot_status = discord.Status.dnd
+
     await client.change_presence(
-        status=discord.Status.online,
+        status=bot_status,
         activity=discord.Activity(
             name=bot_str,
             type=discord.ActivityType.custom,
@@ -250,11 +237,11 @@ async def on_ready():
         ),
     )
 
-    # デバッグ用-起動した日時をログに残す。
-    print(f"{datetime.datetime.now()} : 起動しました。")
-    print(f"bot name : {client.user.name}")
-    print(f"bot id : {client.user.id}")
-    print(f"discord py version : {discord.__version__}")
+    # 起動した日時をログに残す。
+    loggerService.info(f"{datetime.datetime.now()} : 起動しました。")
+    loggerService.info(f"bot name : {client.user.name}")
+    loggerService.info(f"bot id : {client.user.id}")
+    loggerService.info(f"discord py version : {discord.__version__}")
 
 
 @client.event
@@ -273,43 +260,8 @@ async def on_connect():
         ),
     )
 
-    # デバッグ用-接続した日時をログに残す。
-    print(f"{datetime.datetime.now()} : 正常に接続しました。")
+    # 接続した日時をログに残す。
+    loggerService.info(f"{datetime.datetime.now()} : 正常に接続しました。")
 
 
-def random_message_select(
-    msg_list,
-    channel_info: discord.VoiceState,
-    member: discord.Member,
-) -> str:
-    """
-    通知メッセージをランダムで生成します。
-
-    Args:
-        msg_list: メッセージ候補リスト
-        channel_info: チャンネル情報
-        member: ユーザー情報
-    """
-    # 通知メッセージテンプレートをランダムで選択
-    msg_len = len(msg_list)
-    ran_int = random.randint(0, msg_len - 1)
-
-    # 通知メッセージテンプレートに引数を設定して返却
-    message = (
-        msg_list[ran_int]
-        .replace(channel_name, channel_info.channel.name)
-        .replace(display_name, member.display_name)
-    )
-    print(message)
-    return message
-
-
-def get_global_ip_address_by_me():
-    """
-    このサーバーのIPアドレスを取得します。
-    """
-    res = requests.get("https://ifconfig.me")
-    return res.text
-
-
-client.run(client_id)
+client.run(const.client_id)

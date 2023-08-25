@@ -2,12 +2,15 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
-  "python.formatting.provider": "none",
   "cSpell.words": [
+    "commitlint",
     "Dynmap",
+    "isort",
     "Kotoya",
     "kzrm",
     "Njgx",
-    "nohup"
+    "nohup",
+    "PIPENV",
+    "VENV"
   ]
 }

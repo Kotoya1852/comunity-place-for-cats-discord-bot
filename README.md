@@ -1,5 +1,11 @@
 # community-place-for-cats-discord-bot
 
+[![Python](https://img.shields.io/badge/python-3.10-blue?logo=python)](https://www.python.org/downloads/release/python-3100/)
+[![GitHub](https://img.shields.io/github/license/Kotoya1852/community-place-for-cats-discord-bot)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Kotoya1852/community-place-for-cats-discord-bot?logo=github)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/issues?q=is%3Aissue+is%3Aopen+)
+[![GitHub release (with filter)](https://img.shields.io/github/v/release/Kotoya1852/community-place-for-cats-discord-bot)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/releases/latest)
+[![Static Badge](https://img.shields.io/badge/Visual_Stadio_Code-download-blue?logo=visual-studio-code)](https://azure.microsoft.com/ja-jp/products/visual-studio-code)
+
 > **Warning**<br>
 > This document is only available in Japanese.
 
@@ -16,7 +22,7 @@
   - イベント情報を出力
 
 ## 導入方法
-※初回導入の場合は別途準備が必要です。[初回導入]()を参照してください。
+※既に[初回導入](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/wiki/%E5%88%9D%E6%9C%9F%E5%B0%8E%E5%85%A5)を実施済であることが条件です。
 1. お好みの場所に移動する
 ```
 cd <お好みのディレクトリ>
@@ -25,19 +31,38 @@ cd <お好みのディレクトリ>
 ```
 git clone https://github.com/Kotoya1852/community-place-for-cats-discord-bot.git -b main
 ```
-3. 環境変数を設定する
+3. リポジトリ内に移動する
 ```
-export DISCORD_CLIENT_ID={DiscordボットのクライアントID}
-export DISCORD_NOTIFICATION_CANNEL_ID={入退室通知用テキストチャンネルID}
-export DISCORD_MINECRAFT_CHANNEL_ID={マインクラフト用テキストチャンネルID}
-export DISCORD_MINECRAFT_ROLE_ID={マインクラフト参加用ロールID}
+cd community-place-for-cats-discord-bot
 ```
-※`.bash_profile`に追加した際は`reboot`で再起動することをオススメします。
-4. 以下コマンドを実行して、仮想環境を構築する
+4. 環境変数を設定するため、set_environment.shを修正する
 ```
-pipenv install
+vi set_environment.sh
 ```
-5. 以下コマンドを実行して、ボットを起動する
 ```
-nohup python3.10 discord_channels.py &
+export DISCORD_CLIENT_ID=DiscordボットのクライアントID
+export DISCORD_NOTIFICATION_CANNEL_ID=入退室通知用テキストチャンネルID
+export DISCORD_MINECRAFT_CHANNEL_ID=マインクラフト用テキストチャンネルID
+export DISCORD_MINECRAFT_ROLE_ID=マインクラフト参加用ロールID
+export DEBUG_LOG_OUTPUT_FLAG=true （※デバッグログを出力する場合のみ、しない場合は`false`を指定しても良い）
+export DISCORD_CLIENT_RUN_MODE=normal_run（※メンテナンスモードは `maintenance` を指定する）
+```
+5. ボットを動かす
+```
+bash startup.sh
+```
+
+## ボットのアップデート方法
+※既に導入済であることが前提
+1. アップデートスクリプトを実行
+```
+bash update.sh
+```
+2. 必要であれば、環境変数を見直します。
+```
+vi set_environment.sh
+```
+3. ボットを動かす
+```
+bash startup.sh
 ```
