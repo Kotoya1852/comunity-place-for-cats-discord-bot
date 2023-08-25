@@ -43,6 +43,8 @@ leaving_msg_list = list(
 # discordボットクライアントID
 client_id = os.getenv("DISCORD_CLIENT_ID")
 """ discordボットクライアントID """
+client_run_mode = os.getenv("DISCORD_CLIENT_RUN_MODE")
+""" discordボット稼働モード """
 
 
 # テキストチャンネルID

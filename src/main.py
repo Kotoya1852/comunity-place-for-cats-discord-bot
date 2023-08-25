@@ -217,9 +217,18 @@ async def on_ready():
     """
     ボットが起動した時に発火するイベントです。
     """
+    # 初期値：通常稼働モード
     bot_str = "稼働中にゃ！"
+    bot_status = discord.Status.online
+
+    # 稼働モードを取得
+    if const.client_run_mode == "maintenance":
+        # メンテナンスモード
+        bot_str = "メンテナンス中にゃ！"
+        bot_status = discord.Status.dnd
+
     await client.change_presence(
-        status=discord.Status.online,
+        status=bot_status,
         activity=discord.Activity(
             name=bot_str,
             type=discord.ActivityType.custom,
