@@ -41,5 +41,5 @@ class UtilsService:
         """
         このサーバーのIPアドレスを取得します。
         """
-        res = requests.get("https://ifconfig.me")
+        res = requests.get("https://checkip.amazonaws.com/")
         return res.text
