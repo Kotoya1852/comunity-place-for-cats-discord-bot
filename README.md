@@ -35,16 +35,17 @@ git clone https://github.com/Kotoya1852/community-place-for-cats-discord-bot.git
 ```
 cd community-place-for-cats-discord-bot
 ```
-4. 環境変数を設定するため、environment_values.txtを修正する
+4. 環境変数を設定するため、set_environment.shを修正する
 ```
-vi environment_values.txt
+vi set_environment.sh
 ```
 ```
-DISCORD_CLIENT_ID=DiscordボットのクライアントID
-DISCORD_NOTIFICATION_CANNEL_ID=入退室通知用テキストチャンネルID
-DISCORD_MINECRAFT_CHANNEL_ID=マインクラフト用テキストチャンネルID
-DISCORD_MINECRAFT_ROLE_ID=マインクラフト参加用ロールID
-DEBUG_LOG_OUTPUT_FLAG=true （※デバッグログを出力する場合のみ、しない場合は`false`を指定しても良い）
+export DISCORD_CLIENT_ID=DiscordボットのクライアントID
+export DISCORD_NOTIFICATION_CANNEL_ID=入退室通知用テキストチャンネルID
+export DISCORD_MINECRAFT_CHANNEL_ID=マインクラフト用テキストチャンネルID
+export DISCORD_MINECRAFT_ROLE_ID=マインクラフト参加用ロールID
+export DEBUG_LOG_OUTPUT_FLAG=true （※デバッグログを出力する場合のみ、しない場合は`false`を指定しても良い）
+export DISCORD_CLIENT_RUN_MODE=normal_run（※メンテナンスモードは `maintenance` を指定する）
 ```
 5. ボットを動かす
 ```
@@ -57,7 +58,11 @@ bash startup.sh
 ```
 bash update.sh
 ```
-2. ボットを動かす
+2. 必要であれば、環境変数を見直します。
+```
+vi set_environment.sh
+```
+3. ボットを動かす
 ```
 bash startup.sh
 ```

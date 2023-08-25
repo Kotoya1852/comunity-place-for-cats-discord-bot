@@ -5,7 +5,9 @@
 #####
 
 # 当シェルスクリプトファイルの場所まで移動
-cd dirname ${0}
+NOW_DIR=`dirname ${0}`
+echo $NOW_DIR
+cd $NOW_DIR
 
 IMAGE_TAG="discord-bot:latest"
 
