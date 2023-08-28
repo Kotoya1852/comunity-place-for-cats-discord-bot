@@ -5,6 +5,8 @@
 [![GitHub issues](https://img.shields.io/github/issues/Kotoya1852/community-place-for-cats-discord-bot?logo=github)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/issues?q=is%3Aissue+is%3Aopen+)
 [![GitHub release (with filter)](https://img.shields.io/github/v/release/Kotoya1852/community-place-for-cats-discord-bot)](https://github.com/Kotoya1852/community-place-for-cats-discord-bot/releases/latest)
 [![Static Badge](https://img.shields.io/badge/Visual_Stadio_Code-download-blue?logo=visual-studio-code)](https://azure.microsoft.com/ja-jp/products/visual-studio-code)
+[![Static Badge](https://img.shields.io/badge/centos-download-blue?logo=centos)](https://www.centos.org/download/)
+[![Static Badge](https://img.shields.io/badge/docker-not_upload-red?logo=docker)]()
 
 > **Warning**<br>
 > This document is only available in Japanese.
