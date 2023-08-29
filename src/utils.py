@@ -4,6 +4,7 @@ import discord
 import requests
 
 from const import channel_name, display_name
+from logger import LoggerService as loggerService
 
 
 class UtilsService:
@@ -56,6 +57,7 @@ class UtilsService:
         """
         target_channel = None
         for channel in client.get_all_channels():
+            loggerService.debug(f"{channel.id} == {channel_id}")
             if channel.id == channel_id:
                 target_channel = channel
 

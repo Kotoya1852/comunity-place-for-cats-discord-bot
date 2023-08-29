@@ -55,7 +55,7 @@ async def on_voice_state_update(
         guild: discord.Guild = utilsService.get_guild_by_channel_id(client, notice_id)
         if guild == None:
             # 通知チャンネルが存在するサーバーが見つからない
-            loggerService.info("通知チャンネルが見つかりませんでした。")
+            loggerService.info("サーバーが見つかりませんでした。")
             return
 
         # 通知先チャンネル指定
