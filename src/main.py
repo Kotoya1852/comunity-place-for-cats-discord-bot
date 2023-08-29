@@ -53,7 +53,7 @@ async def on_voice_state_update(
         notice_id = const.notification_channel_id
         print(notice_id)
         # 通知チャンネルが存在するサーバーを取得する
-        guild: discord.Guild = utilsService.get_guild_by_channel_id(notice_id)
+        guild: discord.Guild = utilsService.get_guild_by_channel_id(client, notice_id)
         if guild == None:
             # 通知チャンネルが存在するサーバーが見つからない
             return
