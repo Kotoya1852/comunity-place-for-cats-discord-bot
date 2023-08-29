@@ -46,7 +46,7 @@ class UtilsService:
         return res.text
 
     def get_guild_by_channel_id(
-        client: discord.Client, channel_id: str
+        client: discord.Client, channel_id: int
     ) -> discord.Guild | None:
         """
         チャンネルIDからギルドを取得します。
@@ -58,9 +58,9 @@ class UtilsService:
         target_channel = None
         for channel in client.get_all_channels():
             loggerService.debug(
-                f"{channel.id} == {channel_id}: {channel.id == int(channel_id)}"
+                f"{channel.id} == {channel_id}: {channel.id == channel_id}"
             )
-            if channel.id == int(channel_id):
+            if channel.id == channel_id:
                 target_channel = channel
                 loggerService.debug(f"検索対象チャンネル：{channel}")
                 loggerService.debug(f"target_channel：{target_channel}")
