@@ -60,7 +60,6 @@ async def on_voice_state_update(
 
         # 通知先チャンネル指定
         botRoom = client.get_channel(notice_id)
-        loggerService.debug(f"botRoom ID: {botRoom.id}")
 
         # サーバーに存在すチャンネルIDを自動取得（新しく作成してもソースを修正する必要がない）
         announceChannelIds = []
