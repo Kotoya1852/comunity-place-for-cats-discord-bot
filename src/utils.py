@@ -62,6 +62,8 @@ class UtilsService:
                 target_channel = channel
 
         if target_channel == None:
+            loggerService.debug("チャンネルが見つかりませんでした。")
             return None
 
+        loggerService.debug(f"対象チャンネルのギルド：{target_channel.guild}")
         return target_channel.guild
