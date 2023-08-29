@@ -60,6 +60,8 @@ class UtilsService:
             loggerService.debug(f"{channel.id} == {channel_id}")
             if channel.id == channel_id:
                 target_channel = channel
+                loggerService.debug(f"検索対象チャンネル：{channel}")
+                loggerService.debug(f"target_channel：{target_channel}")
 
         if target_channel == None:
             loggerService.debug("チャンネルが見つかりませんでした。")
