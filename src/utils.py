@@ -43,3 +43,23 @@ class UtilsService:
         """
         res = requests.get("https://checkip.amazonaws.com/")
         return res.text
+
+    def get_guild_by_channel_id(
+        client: discord.Client, channel_id: str
+    ) -> discord.Guild | None:
+        """
+        チャンネルIDからギルドを取得します。
+
+        Args:
+            client: discordクライアント
+            channel_id: チャンネルID（テキストチャンネルやボイスチャンネルのID）
+        """
+        target_channel = None
+        for channel in client.get_all_channels():
+            if channel.id == channel_id:
+                target_channel = channel
+
+        if target_channel == None:
+            return None
+
+        return target_channel.guild
