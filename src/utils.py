@@ -4,6 +4,7 @@ import discord
 import requests
 
 from const import channel_name, display_name
+from logger import LoggerService as loggerService
 
 
 class UtilsService:
@@ -43,3 +44,30 @@ class UtilsService:
         """
         res = requests.get("https://checkip.amazonaws.com/")
         return res.text
+
+    def get_guild_by_channel_id(
+        client: discord.Client, channel_id: int
+    ) -> discord.Guild | None:
+        """
+        チャンネルIDからギルドを取得します。
+
+        Args:
+            client: discordクライアント
+            channel_id: チャンネルID（テキストチャンネルやボイスチャンネルのID）
+        """
+        target_channel = None
+        for channel in client.get_all_channels():
+            loggerService.debug(
+                f"{channel.id} == {channel_id}: {channel.id == channel_id}"
+            )
+            if channel.id == channel_id:
+                target_channel = channel
+                loggerService.debug(f"検索対象チャンネル：{channel}")
+                loggerService.debug(f"target_channel：{target_channel}")
+
+        if target_channel == None:
+            loggerService.debug("チャンネルが見つかりませんでした。")
+            return None
+
+        loggerService.debug(f"対象チャンネルのギルド：{target_channel.guild}")
+        return target_channel.guild

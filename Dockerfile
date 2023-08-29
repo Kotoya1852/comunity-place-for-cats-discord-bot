@@ -24,7 +24,7 @@ ENV LANG=C.UTF-8 \
     DEBUG_LOG_OUTPUT_FLAG=$DEBUG_LOG_OUTPUT_FLAG
 
 # 変数指定
-ARG project_name="community-place-for-cats-discord-bot_feat-8-kotoya"
+ARG project_name="community-place-for-cats-discord-bot"
 ARG application_name="src"
 
 # 作業ディレクトリ作成
@@ -43,4 +43,4 @@ RUN pipenv install
 WORKDIR /code/$project_name/$application_name
 
 # ボット起動
-ENTRYPOINT ["pipenv", "run", "python3", "main.py"]
+ENTRYPOINT ["pipenv", "run", "python3", "-u", "main.py"]
