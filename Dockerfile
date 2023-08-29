@@ -43,4 +43,4 @@ RUN pipenv install
 WORKDIR /code/$project_name/$application_name
 
 # ボット起動
-ENTRYPOINT ["pipenv", "run", "python3", "main.py"]
+ENTRYPOINT ["pipenv", "run", "python3", "-u", "main.py"]
