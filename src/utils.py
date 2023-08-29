@@ -58,9 +58,9 @@ class UtilsService:
         target_channel = None
         for channel in client.get_all_channels():
             loggerService.debug(
-                f"{channel.id} == {channel_id}: {channel.id == channel_id}"
+                f"{channel.id} == {channel_id}: {channel.id == int(channel_id)}"
             )
-            if channel.id == channel_id:
+            if channel.id == int(channel_id):
                 target_channel = channel
                 loggerService.debug(f"検索対象チャンネル：{channel}")
                 loggerService.debug(f"target_channel：{target_channel}")
