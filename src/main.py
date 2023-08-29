@@ -50,16 +50,16 @@ async def on_voice_state_update(
         after: 入室先ボイスチャンネルの情報
     """
     if before.channel != after.channel:
+        notice_id = const.notification_channel_id
+        print(notice_id)
         # 通知チャンネルが存在するサーバーを取得する
-        guild: discord.Guild = utilsService.get_guild_by_channel_id(
-            const.notification_channel_id
-        )
+        guild: discord.Guild = utilsService.get_guild_by_channel_id(notice_id)
         if guild == None:
             # 通知チャンネルが存在するサーバーが見つからない
             return
 
         # 通知先チャンネル指定
-        botRoom = client.get_channel(const.notification_channel_id)
+        botRoom = client.get_channel(notice_id)
 
         # サーバーに存在すチャンネルIDを自動取得（新しく作成してもソースを修正する必要がない）
         announceChannelIds = []
