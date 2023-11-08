@@ -2,10 +2,9 @@
     機能名：入退室通知ボット猫 - 猫の集会場
 """
 
-import datetime
-
 import discord
 
+import commands.commands as commands
 import const
 from logger import LoggerService as loggerService
 from utils import UtilsService as utilsService
@@ -38,7 +37,7 @@ async def on_voice_state_update(
         # 通知先チャンネル指定
         botRoom = client.get_channel(notice_id)
 
-        # サーバーに存在すチャンネルIDを自動取得（新しく作成してもソースを修正する必要がない）
+        # サーバーに存在するチャンネルIDを自動取得（新しく作成してもソースを修正する必要がない）
         announceChannelIds = []
         for channel in client.get_all_channels():
             channel_id = guild.get_channel(channel.id).id
@@ -72,131 +71,15 @@ async def on_message(message: discord.Message):
     Args:
         message: 受信したメッセージ情報
     """
-    loggerService.debug(f"{datetime.datetime.now()}:{message.content}")
+    loggerService.debug(f"{message.content}")
     if message.content.startswith("!"):
         # コマンド接頭辞は`!`なので、`!`のテキストメッセージを取得する
         # コマンドパラメータは半角スペースで区切る
         input_command_and_parameters = message.content.split(" ")
-        input_command = input_command_and_parameters.pop(0)
-        if input_command == "!ping":
-            # pingコマンド
-            # レイテンシーをメッセージに返信する。
-            await message.reply(f"pingコマンド実行：ボット猫のPingは約{round(client.latency, 2)}秒です。")
-            return
-        elif input_command == "!help":
-            # helpコマンド
-            # 現在使用可能なコマンドをメッセージに返信する。
-            commands = list(
-                ("`!ping`", "`!join イベント名`", "`!leave イベント名`", "`!info イベント名`")
-            )
-            commands_help = "\n".join(commands)
-            await message.reply(f"helpコマンド実行：現在使用可能なコマンドは以下の通りです。\n{commands_help}")
-            return
-        elif input_command == "!join":
-            # joinコマンド
-            # パラメータに指定されたイベントに参加します。
-            try:
-                event = input_command_and_parameters.pop(0)
-                if event == "minecraft":
-                    # サーバー情報取得
-                    guild = message.guild
-                    # ロール情報取得
-                    role = discord.utils.get(guild.roles, id=const.minecraft_role_id)
-                    # 特定のロールが付与されているか
-                    if message.author.get_role(role.id) is not None:
-                        await message.reply(f"既に参加済です。")
-                        return
-                    # 特定のロールを付与する
-                    await message.author.add_roles(role)
-                    # 結果を返却する
-                    await message.reply(f"イベント`{event}`の参加を受諾しました。")
-                    return
-                else:
-                    # 存在しないイベント
-                    await message.reply(f"イベント`{event}`は存在しません。")
-            except IndexError:
-                # イベントが指定されなかった
-                # イベントリストを表示
-                events = ["minecraft"]
-                event_help = "\n".join(events)
-                await message.reply(f"現在参加できるイベントは以下の通りです。\n{event_help}")
-                return
-        elif input_command == "!leave":
-            # leaveコマンド
-            # パラメータに指定されたイベントを辞退します。
-            try:
-                event = input_command_and_parameters.pop(0)
-                if event == "minecraft":
-                    # サーバー情報取得
-                    guild = message.guild
-                    # ロール情報取得
-                    role = discord.utils.get(guild.roles, id=const.minecraft_role_id)
-                    # 特定のロールが付与されているか
-                    if message.author.get_role(role.id) is None:
-                        await message.reply(f"イベント`{event}`は参加していません。")
-                        return
-                    # 特定のロールを除去する
-                    await message.author.remove_roles(role)
-                    # 結果を返却する
-                    await message.reply(f"イベント`{event}`の参加を辞退しました。")
-                    return
-                else:
-                    await message.reply(f"イベント`{event}`は参加していません。")
-                    return
-            except IndexError:
-                # イベントが指定されなかった
-                await message.reply("辞退するイベントを指定してください。")
-                return
-        elif input_command == "!info":
-            # infoコマンド
-            # パラメータに指定されたイベントの情報を返信します。
-            try:
-                event = input_command_and_parameters.pop(0)
-                if event == "minecraft":
-                    # バリデーションチェック
-                    # チャンネルIDチェック
-                    message_id = message.channel.id
-                    if message_id != const.minecraft_channel_id:
-                        # テキストチャンネルIDが一致しない
-                        await message.reply(
-                            f"このテキストチャンネルでは回答できません。\n`{event}`用のテキストチャンネルでコマンドを実行してください。"
-                        )
-                        return
-                    # ロールmessage.author.get_チェック
-                    guild = message.guild
-                    member = guild.get_member(message.author.id)
-                    if member == None:
-                        # メンバーの情報を取得することに失敗した
-                        await message.reply(f"あなたの情報を取得することに失敗しました。管理者に連絡してください。")
-                        return
-                    role = member.get_role(const.minecraft_role_id)
-                    if role is None:
-                        # ロールが見つからない
-                        await message.reply(
-                            f"あなたに情報を開示する権限がありません。\nイベント`{event}`に参加してください。`!join {event}`"
-                        )
-                        return
-
-                    # 情報を返信します。
-                    ip_addr = utilsService.get_global_ip_address_by_me()
-                    await message.reply(
-                        f"【アクセス情報】\nサーバーアドレス：{ip_addr}:25565\nDynmap：{ip_addr}:8123"
-                    )
-                    return
-                else:
-                    # 存在しないイベント
-                    await message.reply(f"イベント`{event}`について開示できる情報がありません。")
-            except IndexError:
-                # イベントが指定されなかった
-                await message.reply("取得したい情報のイベント名を指定してください。")
-                return
-        else:
-            # 存在しないコマンド
-            # エラーメッセージをメッセージに返信する。
-            await message.reply(
-                f"コマンドリストに `{input_command}` は存在しません。\n`!help`を実行してコマンドを確認してください。"
-            )
-            return
+        main_command = input_command_and_parameters.pop(0)
+        await commands.core_commands(
+            message, main_command, input_command_and_parameters
+        )
 
 
 @client.event
@@ -225,7 +108,7 @@ async def on_ready():
     )
 
     # 起動した日時をログに残す。
-    loggerService.info(f"{datetime.datetime.now()} : 起動しました。")
+    loggerService.info(f"起動しました。")
     loggerService.info(f"bot name : {client.user.name}")
     loggerService.info(f"bot id : {client.user.id}")
     loggerService.info(f"discord py version : {discord.__version__}")
@@ -248,7 +131,7 @@ async def on_connect():
     )
 
     # 接続した日時をログに残す。
-    loggerService.info(f"{datetime.datetime.now()} : 正常に接続しました。")
+    loggerService.info(f"正常に接続しました。")
 
 
 client.run(const.client_id)
