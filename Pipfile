@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 discord = "*"
 requests = "*"
+term-printer = "*"
 
 [dev-packages]
 pre-commit = "*"

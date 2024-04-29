@@ -35,7 +35,7 @@ class UtilsService:
             .replace(channel_name, channel_info.channel.name)
             .replace(display_name, member.display_name)
         )
-        print(message)
+        loggerService.debug(message)
         return message
 
     def get_global_ip_address_by_me():

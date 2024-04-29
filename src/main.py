@@ -26,6 +26,11 @@ async def on_voice_state_update(
         after: 入室先ボイスチャンネルの情報
     """
     if before.channel != after.channel:
+        if const.notification_channel_id == None:
+            # 通知用チャンネルIDが環境変数に指定されていない場合、何もしない
+            loggerService.error("通知用")
+            return
+
         notice_id = int(const.notification_channel_id)
         # 通知チャンネルが存在するサーバーを取得する
         guild: discord.Guild = utilsService.get_guild_by_channel_id(client, notice_id)
@@ -134,4 +139,7 @@ async def on_connect():
     loggerService.info(f"正常に接続しました。")
 
 
-client.run(const.client_id)
+if const.client_id != None:
+    client.run(const.client_id)
+else:
+    raise RuntimeError("クライアントIDが指定されていません")
