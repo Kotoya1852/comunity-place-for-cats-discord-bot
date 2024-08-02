@@ -3,10 +3,8 @@
 """
 
 import discord
+import event.event as event
 import help
-import info
-import join
-import leave
 import ping
 
 
@@ -33,17 +31,9 @@ async def core_commands(
         # helpコマンド
         await help.help_command(message)
         return
-    elif command == "!join":
+    elif command == "!event":
         # joinコマンド
-        await join.join_command(message, parameters)
-        return
-    elif command == "!leave":
-        # leaveコマンド
-        await leave.leave_command(message, parameters)
-        return
-    elif command == "!info":
-        # infoコマンド
-        await info.info_command(message, parameters)
+        await event.event_command(message, parameters)
         return
     else:
         # 存在しないコマンド
